@@ -1,0 +1,33 @@
+{
+  "name": "template",
+  "version": "1.0.0",
+  "description": "template for future projects",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "babel": "babel src -d dist",
+    "test": "jest",
+    "watch": "jest --watch *.js"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "> 0.5%",
+    "not dead"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.24.1",
+    "@babel/core": "^7.24.4",
+    "@babel/preset-env": "^7.24.4",
+    "babel-jest": "^29.7.0",
+    "css-loader": "^6.10.0",
+    "html-loader": "^5.0.0",
+    "html-webpack-plugin": "^5.6.0",
+    "jest": "^29.7.0",
+    "style-loader": "^3.3.4",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
+  }
+}
