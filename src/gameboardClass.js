@@ -39,7 +39,7 @@ export class Gameboard {
         if(this.ships.length === 0){
             return 'GAME OVER'
         } else {
-            return;
+            return 'it aint over yet';
         }
     }
 
