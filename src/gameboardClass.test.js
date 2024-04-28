@@ -1,4 +1,4 @@
-import { Gameboard } from "./gameboard";
+import { Gameboard } from "./gameboardClass";
 import { Ship } from "./shipClass";
 
 const gameboard = new Gameboard;
