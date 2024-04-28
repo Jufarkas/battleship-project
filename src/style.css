@@ -1,0 +1,157 @@
+body {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    background-color: #e2e8f0;
+}
+
+.hidden {
+    display: none;
+}
+
+.header {
+    height: 40px;
+    width: 100vw;
+    background-color: #94a3b8;
+}
+
+.header h1 {
+    margin-top: 0;
+    padding-left: 10px;
+}
+
+.newGameBtn {
+    cursor: pointer;
+    border: none;
+    height: 40px;
+}
+
+.newGameBtn:hover {
+    background-color: #e2e8f0;
+}
+
+.newGameBtn:active {
+    background-color: #cbd5e1;
+}
+
+.mainContentContainer {
+    display: flex;
+    justify-content: center;
+    border: 2px solid rgb(162, 0, 255);
+}
+
+.gameboardContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin: 10px;
+    border: 2px solid red;
+}
+
+.playerHeader {
+    margin: 5px;
+}
+
+.gridContainer {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px;
+    height: 400px;
+    width: 400px;
+    border: 2px solid rgb(120, 120, 120);
+}
+
+.gameboardOne {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.gameboardOneSquare {
+    height: 38px;
+    width: 38px;
+    border: 1px solid rgb(175, 175, 175);
+}
+
+.gameboardOneSquare:hover {
+    cursor: pointer;
+    background-color: rgb(255, 210, 210);
+}
+
+.gameboardOneSquare:active {
+    background-color: rgb(255, 190, 190);
+}
+
+.gameboardTwo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.gameboardTwoSquare {
+    height: 38px;
+    width: 38px;
+    border: 1px solid rgb(175, 175, 175);
+}
+
+.gameboardTwoSquare:hover {
+    cursor: pointer;
+    background-color: rgb(255, 210, 210);
+}
+
+.gameboardTwoSquare:active {
+    background-color: rgb(255, 190, 190);
+}
+
+.shipContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 5px;
+    width: 400px;
+    height: 200px;
+    border: 2px solid blue;
+}
+
+.p1 {
+    margin: 10px;
+}
+
+.p2 {
+    margin: 10px;
+}
+
+.carrier {
+    cursor: move;
+    width: 200px;
+    height: 40px;
+    border: 2px solid green;
+}
+
+.destroyer {
+    cursor: move;
+    width: 160px;
+    height: 40px;
+    border: 2px solid green;
+}
+
+.battleship1 {
+    cursor: move;
+    width: 120px;
+    height: 40px;
+    border: 2px solid green;
+}
+
+.battleship2 {
+    cursor: move;
+    width: 120px;
+    height: 40px;
+    border: 2px solid green;
+}
+
+.lifeRaft {
+    cursor: move;
+    width: 40px;
+    height: 40px;
+    border: 2px solid green;
+}

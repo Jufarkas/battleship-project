@@ -3,9 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
     <title>Document</title>
 </head>
 <body>
-    
+    <button class="newGameBtn hidden">NEW GAME</button>
+    <button class="restartGameBtn hidden">RESTART</button>
+    <div class="header">
+        <h1>BATTLESHIP</h1>
+    </div>
+    <div class="mainContentContainer">
+        <div class="gameboardContainer">
+            <div class="gameboardOne">
+                <h2 class="playerHeader">Player One</h2>
+                <div class="gridContainer">
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                    <div class="gameboardOneSquare"></div>
+                </div>
+                <div class="shipContainer p1Ships">
+                    <div class="carrier p1" draggable="true"></div>
+                    <div class="destroyer p1" draggable="true"></div>
+                    <div class="battleship1 p1" draggable="true"></div>
+                    <div class="battleship2 p1" draggable="true"></div>
+                    <div class="lifeRaft p1" draggable="true"></div>
+                </div>
+            </div>
+            <div class="gameboardTwo">
+                <h2 class="playerHeader">Player Two</h2>
+                <div class="gridContainer">
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                    <div class="gameboardTwoSquare"></div>
+                </div>
+                <div class="shipContainer p2Ships">
+                    <div class="carrier p2" draggable="true"></div>
+                    <div class="destroyer p2" draggable="true"></div>
+                    <div class="battleship1 p2" draggable="true"></div>
+                    <div class="battleship2 p2" draggable="true"></div>
+                    <div class="lifeRaft p2" draggable="true"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
