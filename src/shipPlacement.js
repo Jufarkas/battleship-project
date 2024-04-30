@@ -172,7 +172,7 @@ class Ship {
 
 function startGame(){
 
-    const p1gameboard = new Gameboard;
+    let p1gameboard = new Gameboard;
     const p1Carrier = new Ship('carrier', 5);
     const p1Destroyer = new Ship('destroyer', 4);
     const p1Battleship1 = new Ship('battleship1', 3); // changed from 'battleship'
@@ -185,7 +185,7 @@ function startGame(){
     // const playerOneBattleship2 = document.querySelectorAll('.battleship2.p1');
     // const playerOneLifeRaft = document.querySelectorAll('.lifeRaft.p1');
 
-    const p2gameboard = new Gameboard;
+    let p2gameboard = new Gameboard;
     const p2Carrier = new Ship('carrier', 5);
     const p2Destroyer = new Ship('destroyer', 4);
     const p2Battleship1 = new Ship('battleship1', 3); // changed from 'battleship'
@@ -202,6 +202,8 @@ function startGame(){
     let currentShip;
     let currentGridSquare;
     let currentGameboard;
+    let gameboardOneSquares = document.querySelectorAll('.gameboardOneSquare');
+    let gameboardTwoSquares = document.querySelectorAll('.gameboardTwoSquare');
 
     function changeShipOrientation() {
         if(shipOrientation === 0){
@@ -271,7 +273,7 @@ function startGame(){
             let shipEnd = parseInt(shipStart) + parseInt(currentShipInstance.length);
             currentGameboard.placeShip(currentShipInstance, shipStart, shipEnd);
     
-            console.log(currentGameboard);
+            console.log(currentGameboard.ships.length);
             console.log(currentGridSquare);
             console.log(currentShipInstance)
 
@@ -286,12 +288,17 @@ function startGame(){
                 } else {
                     squareNum += 10;
                 }
+
+                if(currentGameboard.ships.length === 5){
+                    addShipResetBtn(player);
+                }
+                
             }
             
             if(currentGameboard.ships.find((ship) => ship.name === currentShip)){
                 disableShip(e); // disables ship if placed correctly (sometimes drag/drop fails if not placed 'perfectly')
             }
-    
+
             currentGridSquare = null; // reset so no values remain when placing the next ship
             currentGameboard = null;  // reset so no values remain when placing the next ship
             currentShip = null;       // reset so no values remain when placing the next ship
@@ -318,6 +325,84 @@ function startGame(){
         // ** WILL HAVE TO RE-ENABLE IF A GAME/BOARD IS RESET
     }
 
+    function addShipResetBtn(player){
+        let p1ResetBtn = document.querySelector('.resetBtn.one');
+        let p2ResetBtn = document.querySelector('.resetBtn.two');
+        let shipContainer;
+        let resetBtn = document.createElement('button');
+        resetBtn.classList.add(`resetBtn`, `${player}`);
+        resetBtn.textContent = "RESET SHIPS";
+
+        if(player === 'one'){
+            if(p1ResetBtn){
+                p1ResetBtn.classList.remove('hidden');
+                return;
+            } else {
+                shipContainer = document.querySelector('.shipContainer.p1Ships');
+                shipContainer.appendChild(resetBtn);
+                resetBtnListener(resetBtn);
+                shipContainer = null;
+            }
+        } else {
+            if(p2ResetBtn){
+                p2ResetBtn.classList.remove('hidden');
+                return;
+            } else {
+                shipContainer = document.querySelector('.shipContainer.p2Ships');
+                shipContainer.appendChild(resetBtn);
+                resetBtnListener(resetBtn);
+                shipContainer = null;
+            }
+        }
+        return;
+    }
+
+    function resetBtnListener(btn){
+        btn.addEventListener('click', (e) => {
+            let currentBtn = () => {
+                let p1Ships = document.querySelectorAll('.p1.hidden');
+                let p2Ships = document.querySelectorAll('.p2.hidden');
+                if(e.target.classList.contains('one')){
+                    console.log(p1gameboard);
+                    e.target.classList.add('hidden');
+                    p1gameboard = new Gameboard;
+                    gameboardOneSquares.forEach((square) => {
+                        if(square.classList.contains('occupied')){
+                            square.classList.remove('occupied');
+                        }
+                    })
+                    p1Ships.forEach((ship) => {
+                        ship.classList.remove('hidden');
+                        ship.setAttribute('draggable', 'true')
+                        ship.style.opacity = "1";
+                    })
+                    
+                    console.log(p1gameboard);
+                    return `you clicked p1`;
+                } else {
+                    console.log(p2gameboard);
+                    e.target.classList.add('hidden');
+                    p2gameboard = new Gameboard;
+                    gameboardTwoSquares.forEach((square) => {
+                        if(square.classList.contains('occupied')){
+                            square.classList.remove('occupied');
+                        }
+                        // square.style.backgroundColor = "transparent";
+                        // square.style.border = "1px solid rgb(175, 175, 175)";
+                    })
+                    p2Ships.forEach((ship) => {
+                        ship.classList.remove('hidden');
+                        ship.setAttribute('draggable', 'true')
+                        ship.style.opacity = "1";
+                    })
+                    
+                    console.log(p2gameboard);
+                    return `you clicked p2`;
+                }
+            }
+            console.log(currentBtn());
+        })
+    }
 
     let p1Ships = document.querySelectorAll('.p1'); // ships for ship listener
         p1Ships.forEach((ship) => {
@@ -336,10 +421,6 @@ function startGame(){
                 placeShipInArr(e);
             });
         });
-
-
-    let gameboardOneSquares = document.querySelectorAll('.gameboardOneSquare');
-    let gameboardTwoSquares = document.querySelectorAll('.gameboardTwoSquare');
 
     gameboardOneSquares.forEach((square) => {
         square.addEventListener('dragover', dragOver);
