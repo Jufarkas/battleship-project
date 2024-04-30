@@ -5,11 +5,11 @@ const newShip = new Ship('carrier', 5);
 const anotherShip = new Ship('lifeRaft', 1);
 
 test('ship is created, length 5', () => {
-    expect(newShip).toEqual({name:'carrier', length: 5, hits: 0, sunk: false});
+    expect(newShip).toEqual({name:'carrier', length: 5, orientation: 0, hits: 0, sunk: false});
 });
 
 test('another ship is created, length 1', () => {
-    expect(anotherShip).toEqual({name: 'lifeRaft', length: 1, hits: 0, sunk: false})
+    expect(anotherShip).toEqual({name: 'lifeRaft', length: 1, orientation: 0, hits: 0, sunk: false})
 })
 
 test('ship is hit', () => {
