@@ -1,7 +1,8 @@
 export class Ship {
-    constructor(name, length, hits = 0, sunk = false){
+    constructor(name, length, orientation = 0, hits = 0, sunk = false){
         this.name = name;
         this.length = length;
+        this.orientation = orientation;
         this.hits = hits;
         this.sunk = sunk;
     }
