@@ -9,6 +9,11 @@ body {
     display: none;
 }
 
+.occupied {
+    border: 1px solid rgb(0, 47, 255);
+    background-color: #94a3b8;
+}
+
 .header {
     height: 40px;
     width: 100vw;
@@ -37,7 +42,6 @@ body {
 .mainContentContainer {
     display: flex;
     justify-content: center;
-    border: 2px solid rgb(162, 0, 255);
 }
 
 .gameboardContainer {
@@ -45,7 +49,6 @@ body {
     flex-wrap: wrap;
     justify-content: space-evenly;
     margin: 10px;
-    border: 2px solid red;
 }
 
 .playerHeader {
@@ -73,6 +76,10 @@ body {
     border: 1px solid rgb(175, 175, 175);
 }
 
+.gameboardOneSquare.over {
+    border: 1px solid rgb(0, 47, 255);
+}
+
 .gameboardOneSquare:hover {
     cursor: pointer;
     background-color: rgb(255, 210, 210);
@@ -94,6 +101,10 @@ body {
     border: 1px solid rgb(175, 175, 175);
 }
 
+.gameboardTwoSquare.over {
+    border: 1px solid rgb(0, 47, 255);
+}
+
 .gameboardTwoSquare:hover {
     cursor: pointer;
     background-color: rgb(255, 210, 210);
@@ -110,48 +121,50 @@ body {
     margin-bottom: 5px;
     width: 400px;
     height: 200px;
-    border: 2px solid blue;
-}
-
-.p1 {
-    margin: 10px;
-}
-
-.p2 {
-    margin: 10px;
+    border: 2px solid rgb(120, 120, 120);
 }
 
 .carrier {
+    margin: 10px;
     cursor: move;
     width: 200px;
     height: 40px;
-    border: 2px solid green;
+    background-color: rgb(200, 200, 200);
+    border: 1px solid rgb(141, 141, 141);
 }
 
 .destroyer {
+    margin: 10px;
     cursor: move;
     width: 160px;
     height: 40px;
-    border: 2px solid green;
+    background-color: rgb(200, 200, 200);
+    border: 1px solid rgb(141, 141, 141);
 }
 
 .battleship1 {
+    margin: 10px;
     cursor: move;
     width: 120px;
     height: 40px;
-    border: 2px solid green;
+    background-color: rgb(200, 200, 200);
+    border: 1px solid rgb(141, 141, 141);
 }
 
 .battleship2 {
+    margin: 10px;
     cursor: move;
     width: 120px;
     height: 40px;
-    border: 2px solid green;
+    background-color: rgb(200, 200, 200);
+    border: 1px solid rgb(141, 141, 141);
 }
 
 .lifeRaft {
+    margin: 10px;
     cursor: move;
     width: 40px;
     height: 40px;
-    border: 2px solid green;
+    background-color: rgb(200, 200, 200);
+    border: 1px solid rgb(141, 141, 141);
 }
