@@ -229,14 +229,6 @@ function startGame(){
         return false;
     };
 
-    function dragEnter() {
-        this.classList.add('over');
-    };
-
-    function dragLeave() {
-        this.classList.remove('over');
-    };
-
     function getStartPosition(e) {
         currentGridSquare = e.target.classList[1];
     }
@@ -280,7 +272,22 @@ function startGame(){
             currentGameboard.placeShip(currentShipInstance, shipStart, shipEnd);
     
             console.log(currentGameboard);
-    
+            console.log(currentGridSquare);
+            console.log(currentShipInstance)
+
+            let player = currentGridSquare.slice(0, 3);
+            let squareNum = currentGridSquare.slice(3);
+
+            for(let i = 0; i < currentShipInstance.length; i++){
+                let shipSquares = document.querySelector(`.${player}${squareNum}`);
+                shipSquares.classList.add('occupied');
+                if(shipOrientation === 0){
+                    squareNum++;
+                } else {
+                    squareNum += 10;
+                }
+            }
+            
             if(currentGameboard.ships.find((ship) => ship.name === currentShip)){
                 disableShip(e); // disables ship if placed correctly (sometimes drag/drop fails if not placed 'perfectly')
             }
@@ -336,16 +343,11 @@ function startGame(){
 
     gameboardOneSquares.forEach((square) => {
         square.addEventListener('dragover', dragOver);
-        square.addEventListener('dragenter', dragEnter);
-        square.addEventListener('dragleave', dragLeave);
-
         square.addEventListener('drop', getStartPosition);
     })
 
     gameboardTwoSquares.forEach((square) => {
         square.addEventListener('dragover', dragOver);
-        square.addEventListener('dragenter', dragEnter);
-        square.addEventListener('dragleave', dragLeave);
         square.addEventListener('drop', getStartPosition);
     })
 }
