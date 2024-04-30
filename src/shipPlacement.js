@@ -96,9 +96,10 @@ class Gameboard {
 
 
 class Ship {
-    constructor(name, length, hits = 0, sunk = false){
+    constructor(name, length, orientation = 0, hits = 0, sunk = false){
         this.name = name;
         this.length = length;
+        this.orientation = orientation;
         this.hits = hits;
         this.sunk = sunk;
     }
@@ -115,6 +116,7 @@ class Ship {
 }
 
 
+//
 //                               ______________
 //                              |              |
 //                              | Hey go away. |                               
@@ -198,7 +200,6 @@ function startGame(){
     // const playerTwoBattleship2 = document.querySelectorAll('.battleship2.p2');
     // const playerTwoLifeRaft = document.querySelectorAll('.lifeRaft.p2');
 
-    let shipOrientation = 0;
     let currentShip;
     let currentGridSquare;
     let currentGameboard;
@@ -235,6 +236,23 @@ function startGame(){
         currentGridSquare = e.target.classList[1];
     }
 
+    function placeShipOnBoard(ship, player, squareNum){
+        for(let i = 0; i < ship.length; i++){
+            let shipSquares = document.querySelector(`.${player}${squareNum}`);
+            shipSquares.classList.add('occupied');
+            if(ship.orientation === 0){
+                squareNum++;
+            } else {
+                squareNum += 10;
+            }
+
+            if(currentGameboard.ships.length === 5){
+                addShipResetBtn(player);
+            }
+            
+        }
+    }
+
     async function placeShipInArr(e) {
         let currentShipInstance;
         let gridSquare = currentGridSquare.slice(3);
@@ -268,54 +286,45 @@ function startGame(){
             default:
                 return 'invalid ship selection';
         }
-        if(checkLocation(gridSquare)){
+        if(checkLocation(gridSquare, currentShipInstance) === currentShipInstance.length){
             let shipStart = parseInt(gridSquare); // number value of grid square
             let shipEnd = parseInt(shipStart) + parseInt(currentShipInstance.length);
             currentGameboard.placeShip(currentShipInstance, shipStart, shipEnd);
-    
-            console.log(currentGameboard.ships.length);
-            console.log(currentGridSquare);
-            console.log(currentShipInstance)
 
             let player = currentGridSquare.slice(0, 3);
             let squareNum = currentGridSquare.slice(3);
 
-            for(let i = 0; i < currentShipInstance.length; i++){
-                let shipSquares = document.querySelector(`.${player}${squareNum}`);
-                shipSquares.classList.add('occupied');
-                if(shipOrientation === 0){
-                    squareNum++;
-                } else {
-                    squareNum += 10;
-                }
-
-                if(currentGameboard.ships.length === 5){
-                    addShipResetBtn(player);
-                }
-                
-            }
+            placeShipOnBoard(currentShipInstance, player, squareNum);
             
             if(currentGameboard.ships.find((ship) => ship.name === currentShip)){
                 disableShip(e); // disables ship if placed correctly (sometimes drag/drop fails if not placed 'perfectly')
             }
 
-            currentGridSquare = null; // reset so no values remain when placing the next ship
-            currentGameboard = null;  // reset so no values remain when placing the next ship
-            currentShip = null;       // reset so no values remain when placing the next ship
+            // 'wipe' the 3 below so no values remain when placing the next ship
+            currentGridSquare = null;
+            currentGameboard = null;
+            currentShip = null;
 
         } else {
             alert("position isn't empty!");
             return;
         };
+    // console.log(currentShipInstance.orientation)
     // console.log(`this player: ${currentGridSquare.slice(0, 3)}`); // one/two; the gameboards
     }
 
-    function checkLocation(gridSquare) {
-        if(currentGameboard.board[gridSquare] !== null){
-            return false;
-        } else {
-            return true;
+    function checkLocation(gridSquare, ship) {
+        let square = parseInt(gridSquare);
+        let result = 0;
+        for(let i = 0; i < ship.length; i++){
+            if(currentGameboard.board[square] !== null){
+                result -= 1;
+            } else {
+                square++;
+                result += 1;
+            }
         }
+        return result;
     }
 
     function disableShip(e){        
@@ -387,8 +396,6 @@ function startGame(){
                         if(square.classList.contains('occupied')){
                             square.classList.remove('occupied');
                         }
-                        // square.style.backgroundColor = "transparent";
-                        // square.style.border = "1px solid rgb(175, 175, 175)";
                     })
                     p2Ships.forEach((ship) => {
                         ship.classList.remove('hidden');
@@ -425,19 +432,22 @@ function startGame(){
     gameboardOneSquares.forEach((square) => {
         square.addEventListener('dragover', dragOver);
         square.addEventListener('drop', getStartPosition);
+        square.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        })
     })
 
     gameboardTwoSquares.forEach((square) => {
         square.addEventListener('dragover', dragOver);
         square.addEventListener('drop', getStartPosition);
+        square.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        })
     })
 }
 
 startGame();
 
-// the idea is that we make a 'copy' of the ship that's placed, inside our grid, by changing the grid square's border colors, and just grey out/disable the ship that we dragged into that position. This probably means the player won't be able to move a ship once it's placed, so either we:
-// 1. leave it that way, OR..
-// 2. include a 'reset' button that will clear the grid and allow them to start placing ships again (I like this idea more))
 
 // if a ship is placed in location 'X' and shipOrientation = 0 (we'll make 0 be the default to place horizontally, and 1 the setting to place vertically (we can preventDefault for the right mouse click, and maybe make a listener for the right mouse click to run the function to change the ship orientation))
 // ****** note for the right click idea
