@@ -96,10 +96,10 @@ class Gameboard {
 
 
 class Ship {
-    constructor(name, length, orientation = 0, hits = 0, sunk = false){
+    constructor(name, length, hits = 0, sunk = false){
         this.name = name;
         this.length = length;
-        this.orientation = orientation;
+        this.orientation = 0;
         this.hits = hits;
         this.sunk = sunk;
     }
@@ -181,6 +181,8 @@ function startGame(){
     const p1Battleship2 = new Ship('battleship2', 3);
     const p1LifeRaft = new Ship('lifeRaft', 1);
 
+    let p1ShipOrientations = [0, 0, 0, 0, 0];
+
     // const playerOneCarrier = document.querySelectorAll('.carrier.p1');
     // const playerOneDestroyer = document.querySelectorAll('.destroyer.p1');
     // const playerOneBattleship1 = document.querySelectorAll('.battleship1.p1');
@@ -194,6 +196,8 @@ function startGame(){
     const p2Battleship2 = new Ship('battleship2', 3);
     const p2LifeRaft = new Ship('lifeRaft', 1);
 
+    let p2ShipOrientations = [0, 0, 0, 0, 0];
+
     // const playerTwoCarrier = document.querySelectorAll('.carrier.p2');
     // const playerTwoDestroyer = document.querySelectorAll('.destroyer.p2');
     // const playerTwoBattleship1 = document.querySelectorAll('.battleship1.p2');
@@ -205,10 +209,6 @@ function startGame(){
     let currentGameboard;
     let gameboardOneSquares = document.querySelectorAll('.gameboardOneSquare');
     let gameboardTwoSquares = document.querySelectorAll('.gameboardTwoSquare');
-
-    // function changeShipOrientation() {
-        
-    // }
 
     function dragStart() {
         this.style.opacity = '0.4';
@@ -236,10 +236,12 @@ function startGame(){
         for(let i = 0; i < ship.length; i++){
             let shipSquares = document.querySelector(`.${player}${squareNum}`);
             shipSquares.classList.add('occupied');
+
             if(ship.orientation === 0){
                 squareNum++;
             } else {
-                squareNum += 10;
+                squareNum = parseInt(squareNum) + 10;
+                squareNum = squareNum.toString();
             }
 
             if(currentGameboard.ships.length === 5){
@@ -247,6 +249,7 @@ function startGame(){
             }
             
         }
+        console.log(currentGameboard)
     }
 
     async function placeShipInArr(e) {
@@ -283,13 +286,23 @@ function startGame(){
                 return 'invalid ship selection';
         }
         if(checkForEdge(gridSquare, currentShipInstance)){
-            alert('error: ship will breach and edge');
+            alert('error: ship will breach an edge');
             return;
         }
+
         if(checkLocation(gridSquare, currentShipInstance) === currentShipInstance.length){
             let shipStart = parseInt(gridSquare); // number value of grid square
             let shipEnd = parseInt(shipStart) + parseInt(currentShipInstance.length);
-            currentGameboard.placeShip(currentShipInstance, shipStart, shipEnd);
+            if(currentShipInstance.orientation === 1 && currentShipInstance.length > 1){
+                shipEnd = shipStart + ((currentShipInstance.length - 1) * 10);
+                currentGameboard.placeShip(currentShipInstance, shipStart, shipEnd);
+            } else {
+                currentGameboard.placeShip(currentShipInstance, shipStart, shipEnd);
+            }
+            
+
+
+            // currentGameboard.placeShip(currentShipInstance, shipStart, shipEnd);
 
             let player = currentGridSquare.slice(0, 3);
             let squareNum = currentGridSquare.slice(3);
@@ -311,9 +324,25 @@ function startGame(){
         };
     }
 
+    // function findShipStart(e){
+    //     if(e.target.classList[2] === "occupied"){
+    //         let shipName;
+    //         let shipStart;
+    //         let shipInArr;
+    //         let shipLocation = parseInt(e.target.classList[1].slice(3));
+    //         for(let [key, value] of p1gameboard.shipPositions.entries()) {
+    //             if (value.includes(shipLocation)){
+    //                 shipInArr = p1gameboard.ships.find((ship) => ship.name === key);
+    //                 shipName = key;
+    //                 shipStart = value[0];
+    //             }
+    //         }
+    //         return shipStart;
+    //     }
+    // }
+
     function checkLocation(gridSquare, ship) {
         let square = parseInt(gridSquare);
-        console.log(gridSquare.slice(1))
         let result = 0;
         for(let i = 0; i < ship.length; i++){
             if(currentGameboard.board[square] !== null){
@@ -380,7 +409,6 @@ function startGame(){
                 let p1Ships = document.querySelectorAll('.p1.hidden');
                 let p2Ships = document.querySelectorAll('.p2.hidden');
                 if(e.target.classList.contains('one')){
-                    console.log(p1gameboard);
                     e.target.classList.add('hidden');
                     p1gameboard = new Gameboard;
                     gameboardOneSquares.forEach((square) => {
@@ -394,10 +422,8 @@ function startGame(){
                         ship.style.opacity = "1";
                     })
                     
-                    console.log(p1gameboard);
-                    return `you clicked p1`;
+                    return `you reset p1`;
                 } else {
-                    console.log(p2gameboard);
                     e.target.classList.add('hidden');
                     p2gameboard = new Gameboard;
                     gameboardTwoSquares.forEach((square) => {
@@ -411,12 +437,49 @@ function startGame(){
                         ship.style.opacity = "1";
                     })
                     
-                    console.log(p2gameboard);
-                    return `you clicked p2`;
+                    return `you reset p2`;
                 }
             }
             console.log(currentBtn());
         })
+    }
+
+    function changeShipOrientation(e) {
+        if(e.target.classList[1] === 'p1'){ 
+            currentGameboard = p1gameboard;
+        } else if (e.target.classList[1] === 'p2'){
+            currentGameboard = p2gameboard;
+        }
+        let targetShip;
+        let ship = e.target.classList[0];
+        switch(ship) {
+            case 'carrier':
+                targetShip = currentGameboard == p1gameboard ? p1Carrier : p2Carrier;
+                break;
+            case 'destroyer':
+                targetShip = currentGameboard == p1gameboard ? p1Destroyer : p2Destroyer;
+                break;
+            case 'battleship1':
+                targetShip = currentGameboard == p1gameboard ? p1Battleship1 : p2Battleship1;
+                break;
+            case 'battleship2':
+                targetShip = currentGameboard == p1gameboard ? p1Battleship2 : p2Battleship2;
+                break;
+            case 'lifeRaft':
+                targetShip = currentGameboard == p1gameboard ? p1LifeRaft : p2LifeRaft;
+                break;
+            default:
+                return 'invalid ship selection';
+        }
+        if(e.target.classList[1] === 'p1' || e.target.classList[1] === 'p2'){
+            if(e.target.classList.contains('rotate')){
+                e.target.classList.remove('rotate');
+                targetShip.orientation = 0;
+                return;
+            }
+            e.target.classList.add('rotate');
+            targetShip.orientation = 1;
+        }
     }
 
     let p1Ships = document.querySelectorAll('.p1'); // ships for ship listener
@@ -425,6 +488,10 @@ function startGame(){
             ship.addEventListener('dragend', (e) => {
                 confirmShipAndBoard(e);
                 placeShipInArr(e);
+            });
+            ship.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                changeShipOrientation(e);
             });
         });
 
@@ -435,47 +502,30 @@ function startGame(){
                 confirmShipAndBoard(e);
                 placeShipInArr(e);
             });
+            ship.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                changeShipOrientation(e);
+            });
         });
 
     gameboardOneSquares.forEach((square) => {
         square.addEventListener('dragover', dragOver);
         square.addEventListener('drop', getStartPosition);
-        square.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            let shipStart = findShipStart(e);
-            console.log(shipStart);
-        })
+        // square.addEventListener('contextmenu', (e) => {
+        //     e.preventDefault();
+        //     let shipStart = findShipStart(e);
+        //     console.log(shipStart);
+        // })
     })
-
-    // find ship in shipPositions, then find value[0] for the ship's start, once you have that, recreate the ship but make the new end = (shipStart + (shipLength - 1 * 10)
-
-    // ex: if start is 53, ship is 5 long, end would be 93 == [53, 63, 73, 83, 93], we subtract 1 because our start is our first num, so that's already taken care of
-
-    function findShipStart(e){
-        if(e.target.classList[2] === "occupied"){
-            let shipName;
-            let shipStart;
-            let shipInArr;
-            let shipLocation = parseInt(e.target.classList[1].slice(3));
-            for(let [key, value] of p1gameboard.shipPositions.entries()) {
-                if (value.includes(shipLocation)){
-                    shipInArr = p1gameboard.ships.find((ship) => ship.name === key);
-                    shipName = key;
-                    shipStart = value[0];
-                }
-            }
-            return shipStart;
-        }
-    }
 
     gameboardTwoSquares.forEach((square) => {
         square.addEventListener('dragover', dragOver);
         square.addEventListener('drop', getStartPosition);
-        square.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            let shipStart = findShipStart(e);
-            console.log(shipStart);
-        })
+        // square.addEventListener('contextmenu', (e) => {
+        //     e.preventDefault();
+        //     let shipStart = findShipStart(e);
+        //     console.log(shipStart);
+        // })
     })
 }
 
@@ -493,3 +543,6 @@ startGame();
 
 // this way, if a ship is hit, we can change the color of the square's border to red, so the player knows
 
+
+
+// let player rotate ship in inventory, if they right click a ship it swaps the height/width properties (make a new class called '.rotate' or something, assign it to the ship that is right clicked)
