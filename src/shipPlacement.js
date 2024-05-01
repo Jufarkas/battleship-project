@@ -554,17 +554,5 @@ function startGame(){
 startGame();
 
 
-// if a ship is placed in location 'X' and shipOrientation = 0 (we'll make 0 be the default to place horizontally, and 1 the setting to place vertically (we can preventDefault for the right mouse click, and maybe make a listener for the right mouse click to run the function to change the ship orientation))
-// ****** note for the right click idea
-// we should allow player to place their ships, and change orientation if they want, before starting the game (make it so all the ships start horizontally, that way, a player can't place a ship on an edge vertically and turn it 'out of bounds')
 
-// make the gameboardSquares from X to 'ship.lengths' end
-// (so if the ship is 4 long, and is placed/starts at 47, then 50 is the end (47, 48, 49, 50))
-
-// so make 47, 48, 49, 50 have a border property that makes that div's border color "blue" (or whatever) to indicate a ship was placed there, and then just make the opacity of the ship that was dragged to 0.4, and make it non-draggable (so set draggable = false)
-
-// this way, if a ship is hit, we can change the color of the square's border to red, so the player knows
-
-
-
-// let player rotate ship in inventory, if they right click a ship it swaps the height/width properties (make a new class called '.rotate' or something, assign it to the ship that is right clicked)
+// if a ship is hit, we can change the color of the square's border to red, so the players know
