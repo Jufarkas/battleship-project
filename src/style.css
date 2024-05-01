@@ -120,7 +120,7 @@ body {
     justify-content: center;
     margin-bottom: 5px;
     width: 400px;
-    height: 200px;
+    height: auto;
     border: 2px solid rgb(120, 120, 120);
 }
 
@@ -133,6 +133,11 @@ body {
     border: 1px solid rgb(141, 141, 141);
 }
 
+.rotateCarrier {
+    width: 40px !important;
+    height: 200px !important;
+}
+
 .destroyer {
     margin: 10px;
     cursor: move;
@@ -142,6 +147,11 @@ body {
     border: 1px solid rgb(141, 141, 141);
 }
 
+.rotateDestroyer {
+    width: 40px !important;
+    height: 160px !important;
+}
+
 .battleship1 {
     margin: 10px;
     cursor: move;
@@ -149,6 +159,11 @@ body {
     height: 40px;
     background-color: rgb(200, 200, 200);
     border: 1px solid rgb(141, 141, 141);
+}
+
+.rotateBattleship {
+    width: 40px !important;
+    height: 120px !important;
 }
 
 .battleship2 {
