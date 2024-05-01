@@ -206,13 +206,9 @@ function startGame(){
     let gameboardOneSquares = document.querySelectorAll('.gameboardOneSquare');
     let gameboardTwoSquares = document.querySelectorAll('.gameboardTwoSquare');
 
-    function changeShipOrientation() {
-        if(shipOrientation === 0){
-            shipOrientation = 1;
-        } else {
-            shipOrientation = 0;
-        }
-    }
+    // function changeShipOrientation() {
+        
+    // }
 
     function dragStart() {
         this.style.opacity = '0.4';
@@ -434,14 +430,37 @@ function startGame(){
         square.addEventListener('drop', getStartPosition);
         square.addEventListener('contextmenu', (e) => {
             e.preventDefault();
+            let shipStart = findShipStart(e);
         })
     })
+
+    // find ship in shipPositions, then find value[0] for the ship's start, once you have that, recreate the ship but make the new end = (shipStart + (shipLength - 1 * 10)
+
+    // ex: if start is 53, ship is 5 long, end would be 93 == [53, 63, 73, 83, 93], we subtract 1 because our start is our first num, so that's already taken care of
+
+    function findShipStart(e){
+        if(e.target.classList[2] === "occupied"){
+            let shipName;
+            let shipStart;
+            let shipInArr;
+            let shipLocation = parseInt(e.target.classList[1].slice(3));
+            for(let [key, value] of p1gameboard.shipPositions.entries()) {
+                if (value.includes(shipLocation)){
+                    shipInArr = p1gameboard.ships.find((ship) => ship.name === key);
+                    shipName = key;
+                    shipStart = value[0];
+                }
+            }
+            return shipStart;
+        }
+    }
 
     gameboardTwoSquares.forEach((square) => {
         square.addEventListener('dragover', dragOver);
         square.addEventListener('drop', getStartPosition);
         square.addEventListener('contextmenu', (e) => {
             e.preventDefault();
+            let shipStart = findShipStart(e);
         })
     })
 }
