@@ -282,6 +282,10 @@ function startGame(){
             default:
                 return 'invalid ship selection';
         }
+        if(checkForEdge(gridSquare, currentShipInstance)){
+            alert('error: ship will breach and edge');
+            return;
+        }
         if(checkLocation(gridSquare, currentShipInstance) === currentShipInstance.length){
             let shipStart = parseInt(gridSquare); // number value of grid square
             let shipEnd = parseInt(shipStart) + parseInt(currentShipInstance.length);
@@ -305,12 +309,11 @@ function startGame(){
             alert("position isn't empty!");
             return;
         };
-    // console.log(currentShipInstance.orientation)
-    // console.log(`this player: ${currentGridSquare.slice(0, 3)}`); // one/two; the gameboards
     }
 
     function checkLocation(gridSquare, ship) {
         let square = parseInt(gridSquare);
+        console.log(gridSquare.slice(1))
         let result = 0;
         for(let i = 0; i < ship.length; i++){
             if(currentGameboard.board[square] !== null){
@@ -321,6 +324,15 @@ function startGame(){
             }
         }
         return result;
+    }
+
+    function checkForEdge(gridSquare, ship){
+        let start = parseInt(gridSquare);
+        let colNum = start % 10;
+        let maxColNum = 10 - ship.length;
+        if (colNum > maxColNum){
+            return true;
+        }
     }
 
     function disableShip(e){        
@@ -431,6 +443,7 @@ function startGame(){
         square.addEventListener('contextmenu', (e) => {
             e.preventDefault();
             let shipStart = findShipStart(e);
+            console.log(shipStart);
         })
     })
 
@@ -461,6 +474,7 @@ function startGame(){
         square.addEventListener('contextmenu', (e) => {
             e.preventDefault();
             let shipStart = findShipStart(e);
+            console.log(shipStart);
         })
     })
 }
