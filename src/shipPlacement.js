@@ -289,7 +289,7 @@ function startGame(){
             alert('error: ship will breach an edge');
             return;
         }
-
+        
         if(checkLocation(gridSquare, currentShipInstance) === currentShipInstance.length){
             let shipStart = parseInt(gridSquare); // number value of grid square
             let shipEnd = parseInt(shipStart) + parseInt(currentShipInstance.length);
@@ -299,10 +299,6 @@ function startGame(){
             } else {
                 currentGameboard.placeShip(currentShipInstance, shipStart, shipEnd);
             }
-            
-
-
-            // currentGameboard.placeShip(currentShipInstance, shipStart, shipEnd);
 
             let player = currentGridSquare.slice(0, 3);
             let squareNum = currentGridSquare.slice(3);
@@ -344,12 +340,23 @@ function startGame(){
     function checkLocation(gridSquare, ship) {
         let square = parseInt(gridSquare);
         let result = 0;
-        for(let i = 0; i < ship.length; i++){
-            if(currentGameboard.board[square] !== null){
-                result -= 1;
-            } else {
-                square++;
-                result += 1;
+        if(ship.orientation === 1){
+            for(let i = 0; i < ship.length; i++){
+                if(currentGameboard.board[square] !== null){
+                    result -= 1;
+                } else {
+                    square += 10;
+                    result += 1;
+                }
+            }
+        } else {
+            for(let i = 0; i < ship.length; i++){
+                if(currentGameboard.board[square] !== null){
+                    result -= 1;
+                } else {
+                    square++;
+                    result += 1;
+                }
             }
         }
         return result;
@@ -357,10 +364,19 @@ function startGame(){
 
     function checkForEdge(gridSquare, ship){
         let start = parseInt(gridSquare);
-        let colNum = start % 10;
-        let maxColNum = 10 - ship.length;
-        if (colNum > maxColNum){
-            return true;
+
+        if(ship.orientation === 1){
+            let rowNum = Math.floor(start / 10);
+            let maxRowNum = 10 - ship.length;
+            if(rowNum > maxRowNum){
+                return true;
+            }
+        } else {
+            let maxColNum = 10 - ship.length;
+            let colNum = start % 10;
+            if (colNum > maxColNum){
+                return true;
+            }
         }
     }
 
@@ -451,19 +467,24 @@ function startGame(){
             currentGameboard = p2gameboard;
         }
         let targetShip;
+        let rotation;
         let ship = e.target.classList[0];
         switch(ship) {
             case 'carrier':
                 targetShip = currentGameboard == p1gameboard ? p1Carrier : p2Carrier;
+                rotation = 'rotateCarrier';
                 break;
             case 'destroyer':
                 targetShip = currentGameboard == p1gameboard ? p1Destroyer : p2Destroyer;
+                rotation = 'rotateDestroyer'
                 break;
             case 'battleship1':
                 targetShip = currentGameboard == p1gameboard ? p1Battleship1 : p2Battleship1;
+                rotation = 'rotateBattleship'
                 break;
             case 'battleship2':
                 targetShip = currentGameboard == p1gameboard ? p1Battleship2 : p2Battleship2;
+                rotation = 'rotateBattleship'
                 break;
             case 'lifeRaft':
                 targetShip = currentGameboard == p1gameboard ? p1LifeRaft : p2LifeRaft;
@@ -472,12 +493,13 @@ function startGame(){
                 return 'invalid ship selection';
         }
         if(e.target.classList[1] === 'p1' || e.target.classList[1] === 'p2'){
-            if(e.target.classList.contains('rotate')){
-                e.target.classList.remove('rotate');
+            
+            if(e.target.classList.contains(rotation)){
+                e.target.classList.remove(rotation);
                 targetShip.orientation = 0;
                 return;
             }
-            e.target.classList.add('rotate');
+            e.target.classList.add(rotation);
             targetShip.orientation = 1;
         }
     }
