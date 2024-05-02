@@ -1,119 +1,120 @@
-// import { Gameboard } from "./gameboardClass";
-// import { Player } from "./playerClass";
-// import { Ship } from "./shipClass";
+import { Gameboard } from "./gameboardClass";
+import { Player } from "./playerClass";
+import { Ship } from "./shipClass";
+import { createBody } from "./domElemCreation";
+import './style.css';
+
+// class Player {
+//     constructor(name){
+//         this.name = name;
+//         this.playerGameboard = new Gameboard();
+//         this.carrier = new Ship('carrier', 5);
+//         this.destroyer = new Ship('destroyer', 4);
+//         this.battleship = new Ship('battleship', 3);
+//         this.battleship2 = new Ship('battleship2', 3);
+//         this.lifeRaft = new Ship('lifeRaft', 1);
+//     }
+// }
 
 
-class Player {
-    constructor(name){
-        this.name = name;
-        this.playerGameboard = new Gameboard();
-        this.carrier = new Ship('carrier', 5);
-        this.destroyer = new Ship('destroyer', 4);
-        this.battleship = new Ship('battleship', 3);
-        this.battleship2 = new Ship('battleship2', 3);
-        this.lifeRaft = new Ship('lifeRaft', 1);
-    }
-}
+// class Gameboard {
+//     constructor(){
+//         this.board = new Array(100).fill(null);
+//         this.shipPositions = new Map(); // holds key-value pairs;
+//         //{ 'ship.name' => [ship coordinates] } layout for each ship added via placeShip()
+//         // can access .keys(); .values(); .size |no brackets after .size|
+//         this.ships = [];
+//     }
+
+//     placeShip(ship, shipStart, shipEnd){
+//         this.ships.push(ship);
+//         if(shipStart == null){
+//             return;
+//         }
+//         for(let i = 0; i < ship.length; i++){
+//             this.board.splice(shipStart, 1, ship);
+
+//             if(this.shipPositions.has(ship.name)){
+//                 this.shipPositions.get(ship.name).push(shipStart);
+//             } else {
+//                 this.shipPositions.set(ship.name, [shipStart]); // 'if the ship doesn't exist already, .set the ship.name && an array containing the ship coordinates to our shipPositions Map'
+//             }
+
+//             if(shipEnd > shipStart + 9){ //"is ship vertical or horizontal?"
+//                 shipStart += 10; // if vertical, we know the next spot in the array/grid it should be is 10 places away (in our 10x10 array/grid)
+//             } else {
+//                 shipStart++; // if horizontal, it's just the next space over
+//             }
+//         }
+//     };
+
+//     checkGameStatus(){
+//         if(this.ships.length === 0){
+//             return 'GAME OVER'
+//         } else {
+//             return 'it aint over yet';
+//         }
+//     }
+
+//     checkShipStatus(currentShip){
+//         if(currentShip.sunk === true){
+//             this.ships.forEach(ship => {
+//                 let shipIndex = this.ships.indexOf(currentShip)
+//                 if(ship.name == currentShip.name){
+//                     this.ships.splice(shipIndex, 1);
+//                     this.checkGameStatus();
+//                     // MIGHT ALSO HAVE TO REMOVE THE SHIP FROM this.shipPositions AFTER .splice()
+//                     // KEEP THIS AS AN FYI IN CASE WE NEED TO REMOVE THEM AS WELL
+//                 }
+//             })
+//         } else {
+//             return;
+//         }
+//     }
+
+//     receiveAttack(location){
+//         if(this.board[location] !== null){
+//             let shipAttacked = this.checkShipLocation(location);
+//             shipAttacked.hit();
+//             this.checkShipStatus(shipAttacked);
+//             return `hit`;
+//         } else {
+//             this.board[location] = 'miss';
+//             // we can write something later that if(this.board[location] == 'miss'){'gridSquare becomes the color blue'} type thing, to represent a 'missed' hit on the gameboard for the player to see where they're already tried and missed
+//             return `lol you missed`;
+//         }
+//     }
+
+//     checkShipLocation(location){
+//         for(let [key, value] of this.shipPositions.entries()) {
+//             if (value.includes(location)){
+//                 let shipAtLocation = this.ships.find((ship) => ship.name === key);
+//                 return shipAtLocation;
+//             }
+//         }
+//     }
+// }
 
 
-class Gameboard {
-    constructor(){
-        this.board = new Array(100).fill(null);
-        this.shipPositions = new Map(); // holds key-value pairs;
-        //{ 'ship.name' => [ship coordinates] } layout for each ship added via placeShip()
-        // can access .keys(); .values(); .size |no brackets after .size|
-        this.ships = [];
-    }
+// class Ship {
+//     constructor(name, length, hits = 0, sunk = false){
+//         this.name = name;
+//         this.length = length;
+//         this.orientation = 0;
+//         this.hits = hits;
+//         this.sunk = sunk;
+//     }
 
-    placeShip(ship, shipStart, shipEnd){
-        this.ships.push(ship);
-        if(shipStart == null){
-            return;
-        }
-        for(let i = 0; i < ship.length; i++){
-            this.board.splice(shipStart, 1, ship);
-
-            if(this.shipPositions.has(ship.name)){
-                this.shipPositions.get(ship.name).push(shipStart);
-            } else {
-                this.shipPositions.set(ship.name, [shipStart]); // 'if the ship doesn't exist already, .set the ship.name && an array containing the ship coordinates to our shipPositions Map'
-            }
-
-            if(shipEnd > shipStart + 9){ //"is ship vertical or horizontal?"
-                shipStart += 10; // if vertical, we know the next spot in the array/grid it should be is 10 places away (in our 10x10 array/grid)
-            } else {
-                shipStart++; // if horizontal, it's just the next space over
-            }
-        }
-    };
-
-    checkGameStatus(){
-        if(this.ships.length === 0){
-            return 'GAME OVER'
-        } else {
-            return 'it aint over yet';
-        }
-    }
-
-    checkShipStatus(currentShip){
-        if(currentShip.sunk === true){
-            this.ships.forEach(ship => {
-                let shipIndex = this.ships.indexOf(currentShip)
-                if(ship.name == currentShip.name){
-                    this.ships.splice(shipIndex, 1);
-                    this.checkGameStatus();
-                    // MIGHT ALSO HAVE TO REMOVE THE SHIP FROM this.shipPositions AFTER .splice()
-                    // KEEP THIS AS AN FYI IN CASE WE NEED TO REMOVE THEM AS WELL
-                }
-            })
-        } else {
-            return;
-        }
-    }
-
-    receiveAttack(location){
-        if(this.board[location] !== null){
-            let shipAttacked = this.checkShipLocation(location);
-            shipAttacked.hit();
-            this.checkShipStatus(shipAttacked);
-            return `hit`;
-        } else {
-            this.board[location] = 'miss';
-            // we can write something later that if(this.board[location] == 'miss'){'gridSquare becomes the color blue'} type thing, to represent a 'missed' hit on the gameboard for the player to see where they're already tried and missed
-            return `lol you missed`;
-        }
-    }
-
-    checkShipLocation(location){
-        for(let [key, value] of this.shipPositions.entries()) {
-            if (value.includes(location)){
-                let shipAtLocation = this.ships.find((ship) => ship.name === key);
-                return shipAtLocation;
-            }
-        }
-    }
-}
-
-
-class Ship {
-    constructor(name, length, hits = 0, sunk = false){
-        this.name = name;
-        this.length = length;
-        this.orientation = 0;
-        this.hits = hits;
-        this.sunk = sunk;
-    }
-
-    hit(){
-        this.hits++;
-        if(this.hits !== this.length){
-            return 'hit';
-        } else {
-            this.sunk = true;
-            return 'sunk';
-        }
-    }
-}
+//     hit(){
+//         this.hits++;
+//         if(this.hits !== this.length){
+//             return 'hit';
+//         } else {
+//             this.sunk = true;
+//             return 'sunk';
+//         }
+//     }
+// }
 
 
 //
@@ -170,7 +171,7 @@ class Ship {
 //     ||======||
 
 
-
+createBody();
 
 function startGame(){
 
@@ -181,28 +182,12 @@ function startGame(){
     const p1Battleship2 = new Ship('battleship2', 3);
     const p1LifeRaft = new Ship('lifeRaft', 1);
 
-    let p1ShipOrientations = [0, 0, 0, 0, 0];
-
-    // const playerOneCarrier = document.querySelectorAll('.carrier.p1');
-    // const playerOneDestroyer = document.querySelectorAll('.destroyer.p1');
-    // const playerOneBattleship1 = document.querySelectorAll('.battleship1.p1');
-    // const playerOneBattleship2 = document.querySelectorAll('.battleship2.p1');
-    // const playerOneLifeRaft = document.querySelectorAll('.lifeRaft.p1');
-
     let p2gameboard = new Gameboard;
     const p2Carrier = new Ship('carrier', 5);
     const p2Destroyer = new Ship('destroyer', 4);
     const p2Battleship1 = new Ship('battleship1', 3); // changed from 'battleship'
     const p2Battleship2 = new Ship('battleship2', 3);
     const p2LifeRaft = new Ship('lifeRaft', 1);
-
-    let p2ShipOrientations = [0, 0, 0, 0, 0];
-
-    // const playerTwoCarrier = document.querySelectorAll('.carrier.p2');
-    // const playerTwoDestroyer = document.querySelectorAll('.destroyer.p2');
-    // const playerTwoBattleship1 = document.querySelectorAll('.battleship1.p2');
-    // const playerTwoBattleship2 = document.querySelectorAll('.battleship2.p2');
-    // const playerTwoLifeRaft = document.querySelectorAll('.lifeRaft.p2');
 
     let currentShip;
     let currentGridSquare;
@@ -214,6 +199,20 @@ function startGame(){
         this.style.opacity = '0.4';
     };
 
+    function dragOver(e) {
+        e.preventDefault();
+        this.classList.add('over');
+        return false;
+    };
+
+    function removeOver(e) {
+        this.classList.remove('over');
+    }
+
+    function dragLeave(e) {
+        this.classList.remove('over');
+    }
+
     function confirmShipAndBoard(e) {
         currentShip = e.target.classList[0]; // the ship name
         if (e.target.classList[1] === 'p1'){ // 'p1'/'p2' -- the player that owns the ship
@@ -221,11 +220,6 @@ function startGame(){
         } else {
             currentGameboard = p2gameboard;
         }
-    };
-
-    function dragOver(e) {
-        e.preventDefault();
-        return false;
     };
 
     function getStartPosition(e) {
@@ -362,7 +356,7 @@ function startGame(){
         return result;
     }
 
-    function checkForEdge(gridSquare, ship){
+    function checkForEdge(gridSquare, ship) {
         let start = parseInt(gridSquare);
 
         if(ship.orientation === 1){
@@ -380,14 +374,14 @@ function startGame(){
         }
     }
 
-    function disableShip(e){        
+    function disableShip(e) {
         e.target.removeAttribute("draggable"); // **
         e.target.classList.add('hidden'); // **
         // ** stops user from placing ships on grid repetitively
         // ** WILL HAVE TO RE-ENABLE IF A GAME/BOARD IS RESET
     }
 
-    function addShipResetBtn(player){
+    function addShipResetBtn(player) {
         let p1ResetBtn = document.querySelector('.resetBtn.one');
         let p2ResetBtn = document.querySelector('.resetBtn.two');
         let shipContainer;
@@ -419,7 +413,7 @@ function startGame(){
         return;
     }
 
-    function resetBtnListener(btn){
+    function resetBtnListener(btn) {
         btn.addEventListener('click', (e) => {
             let currentBtn = () => {
                 let p1Ships = document.querySelectorAll('.p1.hidden');
@@ -532,7 +526,9 @@ function startGame(){
 
     gameboardOneSquares.forEach((square) => {
         square.addEventListener('dragover', dragOver);
+        square.addEventListener('dragleave', dragLeave);
         square.addEventListener('drop', getStartPosition);
+        square.addEventListener('drop', removeOver);
         // square.addEventListener('contextmenu', (e) => {
         //     e.preventDefault();
         //     let shipStart = findShipStart(e);
@@ -542,7 +538,9 @@ function startGame(){
 
     gameboardTwoSquares.forEach((square) => {
         square.addEventListener('dragover', dragOver);
+        square.addEventListener('dragleave', dragLeave);
         square.addEventListener('drop', getStartPosition);
+        square.addEventListener('drop', removeOver);
         // square.addEventListener('contextmenu', (e) => {
         //     e.preventDefault();
         //     let shipStart = findShipStart(e);
