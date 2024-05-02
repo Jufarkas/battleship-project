@@ -6,7 +6,7 @@ body {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .occupied {
@@ -29,6 +29,48 @@ body {
     cursor: pointer;
     border: none;
     height: 40px;
+}
+
+.restartGameBtn {
+    cursor: pointer;
+    border: none;
+    height: 40px;
+}
+
+.resetBtn {
+    cursor: pointer;
+    margin: 25px;
+    height: 150px;
+    width: 150px;
+    font-size: 1.2em;
+}
+
+.confirmBtn {
+    cursor: pointer;
+    margin: 25px;
+    height: 150px;
+    width: 150px;
+    font-size: 1.2em;
+}
+
+.continueBtn {
+    cursor: pointer;
+    margin-top: 10px;
+    width: 200px;
+    height: 70px;
+    font-size: 1.2em;
+}
+
+.dialogContentContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    font-size: 1.2em;
+}
+
+::backdrop {
+    background-color: rgb(255, 255, 255);
 }
 
 .newGameBtn:hover {
@@ -81,7 +123,7 @@ body {
 }
 
 .gameboardOneSquare:hover {
-    cursor: pointer;
+    cursor: crosshair;
     background-color: rgb(255, 210, 210);
 }
 
@@ -106,7 +148,7 @@ body {
 }
 
 .gameboardTwoSquare:hover {
-    cursor: pointer;
+    cursor: crosshair;
     background-color: rgb(255, 210, 210);
 }
 
