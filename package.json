@@ -1,8 +1,8 @@
 {
-  "name": "template",
+  "name": "Battleship",
   "version": "1.0.0",
-  "description": "template for future projects",
-  "main": "index.js",
+  "description": "the classic game",
+  "main": "shipClass.js",
   "scripts": {
     "build": "webpack",
     "babel": "babel src -d dist",
