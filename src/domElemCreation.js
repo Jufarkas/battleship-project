@@ -2,30 +2,33 @@ export function createBody(){
 
 
 // HEADER AND START GAME / RESTART GAME BUTTONS
-const BODY = document.querySelector('body');
-const newGameBtn = document.createElement('button');
-newGameBtn.classList.add('newGameBtn');
-newGameBtn.classList.add('hidden'); // WILL HAVE TO UNHIDE LATER, AS WE WANT TO USE THIS TO START GAME
-
-const restartGameBtn = document.createElement('button');
-restartGameBtn.classList.add('restartGameBtn');
-restartGameBtn.classList.add('hidden'); // THE MASTER RESTART BUTTON ONCE A GAME IS OVER, could also potentially just re-use newGameBtn instead..
-
 const headerDiv = document.createElement('div');
 headerDiv.classList.add('header');
 
 const headerH1 = document.createElement('h1');
 headerH1.textContent = "BATTLESHIP";
 
+const BODY = document.querySelector('body');
+const newGameBtn = document.createElement('button');
+newGameBtn.textContent = "NEW GAME";
+newGameBtn.classList.add('newGameBtn');
+
+
+const restartGameBtn = document.createElement('button');
+restartGameBtn.classList.add('restartGameBtn');
+restartGameBtn.textContent = `RESTART GAME`
+restartGameBtn.classList.add('hidden'); // THE MASTER RESTART BUTTON ONCE A GAME IS OVER, could also potentially just re-use newGameBtn instead..
+
+BODY.appendChild(headerDiv);
 BODY.appendChild(newGameBtn);
 BODY.appendChild(restartGameBtn);
-BODY.appendChild(headerDiv);
 headerDiv.appendChild(headerH1);
 
 
 // MAIN CONTENT CONTAINER WITH GAMEBOARDS AND GRID SQUARES
 const mainContentContainerDiv = document.createElement('div');
 mainContentContainerDiv.classList.add('mainContentContainer');
+mainContentContainerDiv.classList.add('hidden');
 
 const gameboardContainer = document.createElement('div');
 gameboardContainer.classList.add('gameboardContainer');
@@ -35,6 +38,7 @@ gameboardOne.classList.add('gameboardOne');
 
 const gameboardTwo = document.createElement('div');
 gameboardTwo.classList.add('gameboardTwo');
+gameboardTwo.classList.add('hidden');
 
 const gameboardOneH2 = document.createElement('h2');
 gameboardOneH2.classList.add('playerHeader');
@@ -147,4 +151,22 @@ p2ShipContainer.appendChild(p2Destroyer);
 p2ShipContainer.appendChild(p2Battleship1);
 p2ShipContainer.appendChild(p2Battleship2);
 p2ShipContainer.appendChild(p2DLifeRaft);
+
+
+// Dialog Box for player switching
+
+const dialog = document.createElement('dialog');
+dialog.classList.add('nextPlayerDialog');
+dialog.textContent = 'PASS TO NEXT PLAYER. NEXT PLAYER HIT "CONTINUE" WHEN READY';
+
+const dialogContentContainer = document.createElement('div');
+dialogContentContainer.classList.add('dialogContentContainer')
+
+const dialogContinueBtn = document.createElement('button');
+dialogContinueBtn.classList.add('continueBtn');
+dialogContinueBtn.textContent = "CONTINUE";
+
+BODY.appendChild(dialog);
+dialog.appendChild(dialogContentContainer);
+dialogContentContainer.appendChild(dialogContinueBtn);
 }
