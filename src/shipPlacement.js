@@ -195,6 +195,13 @@ function startGame(){
     let gameboardOneSquares = document.querySelectorAll('.gameboardOneSquare');
     let gameboardTwoSquares = document.querySelectorAll('.gameboardTwoSquare');
 
+    const newGameBtn = document.querySelector('.newGameBtn');
+    newGameBtn.addEventListener('click', () => {
+        const mainContainerDiv = document.querySelector('.mainContentContainer');
+        mainContainerDiv.classList.remove('hidden');
+        newGameBtn.classList.add('hidden');
+    })
+
     function dragStart() {
         this.style.opacity = '0.4';
     };
@@ -240,6 +247,7 @@ function startGame(){
 
             if(currentGameboard.ships.length === 5){
                 addShipResetBtn(player);
+                addConfirmShipPlacementBtn(player);
             }
             
         }
@@ -413,6 +421,156 @@ function startGame(){
         return;
     }
 
+    function addConfirmShipPlacementBtn(player) {
+        let p1ConfirmBtn = document.querySelector('.confirmBtn.one');
+        let p2ConfirmBtn = document.querySelector('.confirmBtn.two');
+        let shipContainer;
+        let confirmBtn = document.createElement('button');
+        confirmBtn.classList.add(`confirmBtn`, `${player}`);
+        confirmBtn.textContent = "CONFIRM SHIP PLACEMENT";
+
+        if(player === 'one'){
+            if(p1ConfirmBtn){
+                p1ConfirmBtn.classList.remove('hidden');
+                return;
+            } else {
+                shipContainer = document.querySelector('.shipContainer.p1Ships');
+                shipContainer.appendChild(confirmBtn);
+                confirmShipsBtnListener(confirmBtn, player);
+                shipContainer = null;
+            }
+        } else {
+            if(p2ConfirmBtn){
+                p2ConfirmBtn.classList.remove('hidden');
+                return;
+            } else {
+                shipContainer = document.querySelector('.shipContainer.p2Ships');
+                shipContainer.appendChild(confirmBtn);
+                confirmShipsBtnListener(confirmBtn, player);
+                shipContainer = null;
+            }
+        }
+        return;
+    }
+
+    function nextPlayerDialog(player) {
+        //make this function close the dialog and prep the next player
+        let nextPlayerDialog = document.querySelector('.nextPlayerDialog');
+        nextPlayerDialog.showModal();        
+        nextPlayerDialog.addEventListener('cancel', (e) => {
+            e.preventDefault();
+        });
+        playerContinue(player);
+    }
+
+    function startGameDialog() {
+        let startGameDialog = document.querySelector('.startGameDialog');
+        let startGameBtn = document.querySelector('.startGameBtn');
+        startGameDialog.showModal();
+        startGameDialog.addEventListener('cancel', (e) => {
+            e.preventDefault();
+        });
+        startGameBtn.addEventListener('click', () => {
+            startGameDialog.close();
+            document.querySelector('.gameboardOne').classList.remove('hidden'); // show p1 their own grid on their turn
+            document.querySelector('.resetBtn.one').classList.add('hidden'); // hide p1 resetShips btn
+            document.querySelector('.confirmBtn.one').classList.add('hidden'); // hide p1 confirmShips btn
+            document.querySelector('.resetBtn.two').classList.add('hidden'); // hide p2 resetShips btn
+            document.querySelector('.confirmBtn.two').classList.add('hidden'); // hide p2 confirmShips btn
+            document.querySelector('.p1TurnFinContainer').classList.remove('hidden'); // show the 'Turn Finished' btn
+            gameboardTwoSquares.forEach((square) => {
+                if(square.classList.contains('occupied')){
+                    square.classList.add('mimic');
+                    square.classList.remove('occupied');
+                }
+            })
+            turnFinBtnClick();
+        })
+    }
+
+    function playerContinue(player) {
+        let nextPlayerDialog = document.querySelector('.nextPlayerDialog');
+        let continueBtn = document.querySelector('.continueBtn');
+        let p1TurnFinBtn = document.querySelector('.p1TurnFinBtn');
+        continueBtn.addEventListener('click', () => {
+            if(player === 'one'){
+                nextPlayerDialog.close();
+                gameboardTwoSquares.forEach((square) => {
+                    if(square.classList.contains('occupied')){
+                        square.classList.add('mimic'); // has no style, simply a placeholder to remember which ones were occupied
+                        square.classList.remove('occupied');
+                    }
+                })
+                document.querySelector('.gameboardTwo').classList.remove('hidden');
+                return;
+            }
+            
+            if(player === p1TurnFinBtn) {
+                gameboardOneSquares.forEach((square) => {
+                    if(square.classList.contains('occupied')){
+                        square.classList.add('mimic'); // has no style, simply a placeholder to remember which ones were occupied
+                        square.classList.remove('occupied');
+    
+                    }
+                })
+                document.querySelector('.p1TurnFinContainer').classList.add('hidden');
+                document.querySelector('.p2TurnFinContainer').classList.remove('hidden');
+                gameboardTwoSquares.forEach((square) => {
+                    if(square.classList.contains('mimic')){
+                        square.classList.add('occupied');
+                        square.classList.remove('mimic');
+                    }
+                })
+                nextPlayerDialog.close();
+            } else {
+                gameboardTwoSquares.forEach((square) => {
+                    if(square.classList.contains('occupied')){
+                        square.classList.add('mimic'); // has no style, simply a placeholder to remember which ones were occupied
+                        square.classList.remove('occupied');
+                    }
+                })
+                document.querySelector('.p2TurnFinContainer').classList.add('hidden');
+                document.querySelector('.p1TurnFinContainer').classList.remove('hidden');
+                gameboardOneSquares.forEach((square) => {
+                    if(square.classList.contains('mimic')){
+                        square.classList.add('occupied');
+                        square.classList.remove('mimic');
+                    }
+                })
+                nextPlayerDialog.close();
+            }
+        })
+    }
+
+    function turnFinBtnClick() {
+        let p1TurnFinBtn = document.querySelector('.p1TurnFinBtn');
+        let p2TurnFinBtn = document.querySelector('.p2TurnFinBtn');
+        let nextPlayerDialog = document.querySelector('.nextPlayerDialog');
+
+        p1TurnFinBtn.addEventListener('click', () => {
+            nextPlayerDialog.showModal();
+            playerContinue(p1TurnFinBtn);
+        })
+
+        p2TurnFinBtn.addEventListener('click', () => {
+            nextPlayerDialog.showModal();
+            playerContinue(p2TurnFinBtn);
+        })
+    }
+
+    function confirmShipsBtnListener(btn, player) {
+        btn.addEventListener('click', () => {
+            if(player === 'one') {
+                document.querySelector('.gameboardOne').classList.add('hidden');
+                nextPlayerDialog(player);
+            } else {
+                startGameDialog();
+            }
+        })        
+    }
+
+    // make an attack counter (in a diff fnc) that initializes at 0, and increases to 1 if a player makes an attack, and if the value of this counter is 1, the player can't attack again and has to pass it over
+
     function resetBtnListener(btn) {
         btn.addEventListener('click', (e) => {
             let currentBtn = () => {
@@ -420,6 +578,7 @@ function startGame(){
                 let p2Ships = document.querySelectorAll('.p2.hidden');
                 if(e.target.classList.contains('one')){
                     e.target.classList.add('hidden');
+                    document.querySelector('.confirmBtn.one').classList.add('hidden');
                     p1gameboard = new Gameboard;
                     gameboardOneSquares.forEach((square) => {
                         if(square.classList.contains('occupied')){
@@ -435,6 +594,7 @@ function startGame(){
                     return `you reset p1`;
                 } else {
                     e.target.classList.add('hidden');
+                    document.querySelector('.confirmBtn.two').classList.add('hidden');
                     p2gameboard = new Gameboard;
                     gameboardTwoSquares.forEach((square) => {
                         if(square.classList.contains('occupied')){
@@ -553,4 +713,17 @@ startGame();
 
 
 
-// if a ship is hit, we can change the color of the square's border to red, so the players know
+// if a ship is hit, we can change the color of the square's border/background to red, so the players know
+
+
+// USE LOGIC IN placeShipOnBoard() (for adding the reset button)
+// ADD A BTN FOR PLAYER 1 THAT POPS UP WITH THE RESET SHIPS BTN (make it like "CONFIRM SHIP PLACEMENTS"), WHICH THEN PASSES IT OFF TO PLAYER 2 TO ADD THEIR SHIPS
+
+// THEN ONCE PLAYER 2 HAS PLACED THEIR SHIPS AND HITS "CONFIRM SHIP PLACEMENTS", OPEN A DIALOG (or something) TO INDICATE:
+// THE GAME IS ABOUT TO START
+// PASS BACK TO PLAYER 1 TO TAKE FIRST TURN
+// WHILE DOING THIS MAKE SURE NO GAMEBOARDS / SHIPS ARE VISIBLE
+// HAVE A FINAL "START GAME" BTN THAT WILL THEN SHOW P1's GAMEBOARD AND A BLANK P2 GAMEBOARD THAT THEY CAN CLICK ON TO ATTACK
+
+
+// maybe make the background of the opponent ships transparent when it's not that player's turn
