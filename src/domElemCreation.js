@@ -1,3 +1,5 @@
+const BODY = document.querySelector('body');
+
 export function createBody(){
 
 
@@ -8,21 +10,17 @@ headerDiv.classList.add('header');
 const headerH1 = document.createElement('h1');
 headerH1.textContent = "BATTLESHIP";
 
-const BODY = document.querySelector('body');
+const headerPara = document.createElement('p');
+headerPara.textContent = "*** Right click a ship change orientation when placing your ships";
+
 const newGameBtn = document.createElement('button');
 newGameBtn.textContent = "NEW GAME";
 newGameBtn.classList.add('newGameBtn');
 
-
-const restartGameBtn = document.createElement('button');
-restartGameBtn.classList.add('restartGameBtn');
-restartGameBtn.textContent = `RESTART GAME`
-restartGameBtn.classList.add('hidden'); // THE MASTER RESTART BUTTON ONCE A GAME IS OVER, could also potentially just re-use newGameBtn instead..
-
 BODY.appendChild(headerDiv);
 BODY.appendChild(newGameBtn);
-BODY.appendChild(restartGameBtn);
 headerDiv.appendChild(headerH1);
+headerDiv.appendChild(headerPara);
 
 
 // MAIN CONTENT CONTAINER WITH GAMEBOARDS AND GRID SQUARES
@@ -50,25 +48,27 @@ gameboardTwoH2.textContent = "Player Two";
 
 const gameboardOneGrid = document.createElement('div');
 gameboardOneGrid.classList.add('gridContainer');
+gameboardOneGrid.classList.add('p1');
 
 const gameboardTwoGrid = document.createElement('div');
 gameboardTwoGrid.classList.add('gridContainer');
+gameboardTwoGrid.classList.add('p2');
 
 // gameboardOne grid squares
-for (let i = 0; i < 100; i++){
+ for (let i = 0; i < 100; i++){
     let gridSquare = document.createElement('div');
     gridSquare.classList.add('gameboardOneSquare');
     gridSquare.classList.add(`one${i}`)
     gameboardOneGrid.appendChild(gridSquare)
-}
+ }
 
 // gameboardTwo grid squares
-for (let i = 0; i < 100; i++){
+ for (let i = 0; i < 100; i++){
     let gridSquare = document.createElement('div');
     gridSquare.classList.add('gameboardTwoSquare');
     gridSquare.classList.add(`two${i}`)
     gameboardTwoGrid.appendChild(gridSquare)
-}
+ }
 
 const p1ShipContainer = document.createElement('div');
 p1ShipContainer.classList.add('shipContainer');
@@ -155,18 +155,73 @@ p2ShipContainer.appendChild(p2DLifeRaft);
 
 // Dialog Box for player switching
 
-const dialog = document.createElement('dialog');
-dialog.classList.add('nextPlayerDialog');
-dialog.textContent = 'PASS TO NEXT PLAYER. NEXT PLAYER HIT "CONTINUE" WHEN READY';
+const nextPlayerDialog = document.createElement('dialog');
+nextPlayerDialog.classList.add('nextPlayerDialog');
+nextPlayerDialog.textContent = 'PASS TO NEXT PLAYER. NEXT PLAYER HIT "CONTINUE" WHEN READY';
 
-const dialogContentContainer = document.createElement('div');
-dialogContentContainer.classList.add('dialogContentContainer')
+const nextDialogContainer = document.createElement('div');
+nextDialogContainer.classList.add('nextDialogContainer')
 
 const dialogContinueBtn = document.createElement('button');
 dialogContinueBtn.classList.add('continueBtn');
 dialogContinueBtn.textContent = "CONTINUE";
 
-BODY.appendChild(dialog);
-dialog.appendChild(dialogContentContainer);
-dialogContentContainer.appendChild(dialogContinueBtn);
+const startGameDialog = document.createElement('dialog');
+startGameDialog.classList.add('startGameDialog');
+startGameDialog.textContent = "IT'S TIME... PASS BACK TO PLAYER ONE AND GET READY TO FIRE ZE MISSILEZ!"
+
+const startDialogContainer = document.createElement('div');
+startDialogContainer.classList.add('startDialogContainer')
+
+const startGameBtn = document.createElement('button');
+startGameBtn.classList.add('startGameBtn')
+startGameBtn.textContent = "START GAME";
+
+
+BODY.appendChild(nextPlayerDialog);
+nextPlayerDialog.appendChild(nextDialogContainer);
+nextDialogContainer.appendChild(dialogContinueBtn);
+
+BODY.appendChild(startGameDialog);
+startGameDialog.appendChild(startDialogContainer);
+startDialogContainer.appendChild(startGameBtn)
+
+ for(let i = 1; i < 3; i++){
+    let turnFinBtnContainer = document.createElement('div');
+    let turnFinBtn = document.createElement('button');
+    turnFinBtnContainer.classList.add(`p${i}TurnFinContainer`);
+    turnFinBtnContainer.classList.add('hidden');
+    turnFinBtn.classList.add(`p${i}TurnFinBtn`);
+    turnFinBtn.textContent = "TURN FINISHED";
+    BODY.appendChild(turnFinBtnContainer);
+    turnFinBtnContainer.appendChild(turnFinBtn);
+ }
+
+const p1TurnFinContainer = document.querySelector('.p1TurnFinContainer');
+const p2TurnFinContainer = document.querySelector('.p2TurnFinContainer');
+
+p1ShipContainer.appendChild(p1TurnFinContainer);
+p2ShipContainer.appendChild(p2TurnFinContainer);
+
+}
+
+
+export function gameOverProtocol(){
+    const gameOverDialog = document.createElement('dialog');
+    gameOverDialog.classList.add('gameOverDialog');
+    gameOverDialog.textContent = "GAME OVER";
+
+    const restartGameBtn = document.createElement('button');
+    restartGameBtn.classList.add('restartGameBtn');
+    restartGameBtn.textContent = `LET'S GO AGAIN!`
+    
+    BODY.appendChild(gameOverDialog);
+    gameOverDialog.appendChild(restartGameBtn);
+
+    gameOverDialog.showModal();
+
+    restartGameBtn.addEventListener('click', () => {
+        gameOverDialog.close();
+        location.reload();
+    });
 }
