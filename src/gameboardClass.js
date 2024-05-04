@@ -1,17 +1,15 @@
-import { Ship } from "./shipClass";
+import { gameOverProtocol } from "./domElemCreation";
 
 export class Gameboard {
     constructor(){
         this.board = new Array(100).fill(null);
-        this.shipPositions = new Map(); // holds key-value pairs;
+        this.shipPositions = new Map();
         //{ 'ship.name' => [ship coordinates] } layout for each ship added via placeShip()
-        // can access .keys(); .values(); .size |no brackets after .size|
         this.ships = [];
     }
 
     placeShip(ship, shipStart, shipEnd){
         this.ships.push(ship);
-        let positionArr = [];
         if(shipStart == null){
             return;
         }
@@ -24,22 +22,22 @@ export class Gameboard {
                 this.shipPositions.set(ship.name, [shipStart]); // 'if the ship doesn't exist already, .set the ship.name && an array containing the ship coordinates to our shipPositions Map'
             }
 
-            positionArr.push(shipStart);
-
-            if(shipEnd > shipStart + 9){ //"is ship vertical or horizontal?"
-                shipStart += 10; // if vertical, we know the next spot in the array/grid it should be is 10 places away (in our 10x10 array/grid)
+            if(shipEnd > shipStart + 9){ // "is ship vertical or horizontal?"
+                shipStart += 10; // if vertical, we know the next spot in the array/grid is 10 places away
             } else {
                 shipStart++; // if horizontal, it's just the next space over
             }
         }
-        return positionArr;
     };
 
-    checkGameStatus(){
+    checkGameStatus(currentShip){
         if(this.ships.length === 0){
-            return 'GAME OVER'
+            alert ('GAME OVER');
+            gameOverProtocol();
+            return;
         } else {
-            return 'it aint over yet';
+            alert (`${currentShip.name} has been sunk!`);
+            return;
         }
     }
 
@@ -49,9 +47,7 @@ export class Gameboard {
                 let shipIndex = this.ships.indexOf(currentShip)
                 if(ship.name == currentShip.name){
                     this.ships.splice(shipIndex, 1);
-                    this.checkGameStatus();
-                    // MIGHT ALSO HAVE TO REMOVE THE SHIP FROM this.shipPositions AFTER .splice()
-                    // KEEP THIS AS AN FYI IN CASE WE NEED TO REMOVE THEM AS WELL
+                    this.checkGameStatus(currentShip);
                 }
             })
         } else {
@@ -67,7 +63,6 @@ export class Gameboard {
             return `hit`;
         } else {
             this.board[location] = 'miss';
-            // we can write something later that if(this.board[location] == 'miss'){'gridSquare becomes the color blue'} type thing, to represent a 'missed' hit on the gameboard for the player to see where they're already tried and missed
             return `lol you missed`;
         }
     }
