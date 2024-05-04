@@ -2,7 +2,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 module.exports = {
-  entry: './src/shipPlacement.js',
+  entry: './src/boardFunctions.js',
   mode: 'development',
   output: {
     filename: 'main.js',
