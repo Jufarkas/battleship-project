@@ -61,7 +61,35 @@ body {
     font-size: 1.2em;
 }
 
-.dialogContentContainer {
+.startGameBtn {
+    cursor: pointer;
+    margin-top: 10px;
+    width: 300px;
+    height: 100px;
+    font-size: 1.2em;
+}
+
+.p1TurnFinBtn {
+    height: 100px;
+    width: 170px;
+    font-size: 1.2em;
+}
+
+.p2TurnFinBtn {
+    height: 100px;
+    width: 170px;
+    font-size: 1.2em;
+}
+
+.nextDialogContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    font-size: 1.2em;
+}
+
+.startDialogContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -122,12 +150,12 @@ body {
     background-color: rgba(0, 128, 0, 0.664);
 }
 
-.gameboardOneSquare:hover {
+.gameboardSquareAttack:hover {
     cursor: crosshair;
     background-color: rgb(255, 210, 210);
 }
 
-.gameboardOneSquare:active {
+.gameboardSquareAttack:active {
     background-color: rgb(255, 190, 190);
 }
 
@@ -147,14 +175,14 @@ body {
     background-color: rgba(0, 128, 0, 0.664);
 }
 
-.gameboardTwoSquare:hover {
+/* .gameboardTwoSquare:hover {
     cursor: crosshair;
     background-color: rgb(255, 210, 210);
 }
 
 .gameboardTwoSquare:active {
     background-color: rgb(255, 190, 190);
-}
+} */
 
 .shipContainer {
     display: flex;
